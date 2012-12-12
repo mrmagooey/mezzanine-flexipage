@@ -1,0 +1,2 @@
+include flexipage/templates/flexipage/*
+include flexipage/static/js/admin/*.js

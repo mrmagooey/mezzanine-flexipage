@@ -22,8 +22,6 @@ class FlexiPage(Page):
     
     def update_flexicontent(self):
         flexi_tags = get_flexi_tags(self.template_name)
-        print 'update_flexicontent()'
-        print self.template_name
         # For each flexi tag, check if a FlexiContent already exists with that name
         for ft in flexi_tags:
             try:

@@ -1,19 +1,4 @@
-
-from django.core.management import setup_environ
-
-import sys
 import os
-
-## For testing functions in this module ##
-# sys.path = [os.path.dirname(\
-#                             os.path.dirname(os.path.dirname\
-#                                             (os.path.abspath(__file__))))] + sys.path
-# sys.path = [os.path.dirname(os.path.dirname\
-#                             (os.path.abspath(__file__)))] + sys.path
-
-# from oddsocks import settings
-
-# setup_environ(settings)
 
 from django.template.loader import get_template
 from django.template import VariableNode

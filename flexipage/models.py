@@ -14,7 +14,7 @@ except AttributeError:
     
 class FlexiPage(Page):
     template_name = models.CharField(max_length=100, choices=TEMPLATE_CHOICES)
-
+    
     def check_for_flexicontent(self):
         flexi_tags = get_flexi_tags(self.template_name)
         if len(flexi_tags) == 0:
@@ -33,15 +33,15 @@ class FlexiPage(Page):
                 f.save()
     
     def save(self, *args, **kwargs):
-        # Need to ignore the fact that there is no title when users
+        # TODO Need to ignore the fact that there is no title when users
         # change the template name in the admin
         super(FlexiPage, self).save(*args, **kwargs)
         self.update_flexicontent()
-
+    
     class Meta:
         verbose_name = "Flexi Page"
 
-        
+
 class FlexiContent(models.Model):
     name = models.CharField(max_length=50)
     page = models.ForeignKey("FlexiPage", related_name='flexi_content')

@@ -21,10 +21,10 @@ In your ``settings.py`` file, install flexipages;
         'flexipage', # Add the flexipage app
     )
 
-Then tell mezzanine-flexipage what your flexi templates are (test.html comes with the package):     
+Then tell mezzanine-flexipage what your flexi templates are (start.html comes with the package):     
 
      FLEXI_TEMPLATES = (
-         ('test.html','test'),
+         ('start.html','start'),
      )
 
 Add the mezzanine-flexipage database tables.
@@ -70,10 +70,10 @@ In your ``settings.py`` file, install flexipages;
         'flexipage', # Add the flexipage app
     )
 
-Then tell mezzanine-flexipage what your flexi templates are (test.html comes with the package):     
+Then tell mezzanine-flexipage what your flexi templates are (start.html comes with the package):     
 
      FLEXI_TEMPLATES = (
-         ('test.html','test'),
+         ('start.html','start'),
      )
     
 Where the first string denotes the name of the template file and the second string denotes how the template will be displayed in the admin. 
@@ -84,7 +84,7 @@ Create your database (sqlite by default, as specified in ``local_settings.py``),
 
 ...and follow the prompts.
 
-Finally, create a local copy of the Mezzanine templates, which will also copy over ``test.html`` specified earlier in ``FLEXI_TEMPLATES``:
+Finally, create a local copy of the Mezzanine templates, which will also copy over ``start.html`` specified earlier in ``FLEXI_TEMPLATES``:
 
     python manage.py collecttemplates
 
@@ -94,7 +94,7 @@ Run the mezzanine application with:
 
 Login to the admin site and within the ``Pages`` page, click the dropdown at the top marked "Add..." and select Flexi Page. This will take you to the ``Add Flexi Page`` page.
 
-Add a title to the new page and select 'test' from the template name dropdown. This will refresh the page with the correct Flexi Content rich content items, and enable you to add content as desired. This will now allow you to add and remove rich content variables via the template.
+Add a title to the new page and select 'start' from the template name dropdown. This will refresh the page with the correct Flexi Content rich content items, and enable you to add content as desired. This will now allow you to add and remove rich content variables via the template.
 
 Refer to the section under Template Introspection for more information.
 

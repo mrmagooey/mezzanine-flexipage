@@ -80,7 +80,7 @@ class UtilsTest(TestCase):
 
 
 @override_settings(FLEXI_TEMPLATES=('test','tests/test.html'))
-class FlexiPageTest(TestCase):
+class FlexiPage(TestCase):
 
     def test_templates_available(self):
         pass
@@ -95,10 +95,15 @@ class FlexiPageTest(TestCase):
         pass
         
 
-class FormsTest(TestCase):
+class FlexiFormsTest(TestCase):
     def test_modelforms_render(self):
         pass
 
     def test_modelforms_save(self):
         pass
 
+        
+@override_settings(FLEXI_TEMPLATES=('test','tests/test.html'))
+class FlexiFormView(TestCase):
+    def test_context(self):
+        pass

@@ -24,6 +24,7 @@ def flexi_page_view(request, page):
         page.flexipage.save()
         
     context = {}
+    context['page'] = page
     # Get every FlexiContent model fk'd to the FlexiPage
     flexi_contents = page.flexipage.flexi_content.all()
     # Use the name of the FlexiContent and inject that into the context

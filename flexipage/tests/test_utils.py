@@ -1,10 +1,3 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
-
-Replace this with more appropriate tests for your application.
-"""
-
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.template import Template
@@ -77,33 +70,3 @@ class UtilsTest(TestCase):
         with self.settings(FLEXI_FORMS=('flexipage.tests.TestForm',)):
             forms = get_flexi_forms('flexipage/tests/test.html')
             self.assertEqual(forms, {'flexiform_TestForm':TestForm})
-
-
-@override_settings(FLEXI_TEMPLATES=('test','tests/test.html'))
-class FlexiPage(TestCase):
-
-    def test_templates_available(self):
-        pass
-
-    def test_new_flexipages(self):
-        pass
-        
-    def test_template_changes_reflected_on_flexipage(self):
-        pass
-
-    def test_template_changes_reflected_in_admin(self):
-        pass
-        
-
-class FlexiFormsTest(TestCase):
-    def test_modelforms_render(self):
-        pass
-
-    def test_modelforms_save(self):
-        pass
-
-        
-@override_settings(FLEXI_TEMPLATES=('test','tests/test.html'))
-class FlexiFormView(TestCase):
-    def test_context(self):
-        pass

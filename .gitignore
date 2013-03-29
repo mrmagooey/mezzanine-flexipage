@@ -3,3 +3,4 @@
 /*.egg-info
 .DS_Store
 build
+/flexipage/tests/test_project/local_settings.py

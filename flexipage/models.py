@@ -17,8 +17,7 @@ class FlexiPage(Page):
     
     def check_for_flexicontent(self):
         flexi_tags = get_flexi_tags(self.template_name)
-        if len(flexi_tags) == 0:
-            return False
+        return flexi_tags
     
     def update_flexicontent(self):
         flexi_tags = get_flexi_tags(self.template_name)
@@ -36,6 +35,8 @@ class FlexiPage(Page):
         # TODO Need to ignore the fact that there is no title when users
         # change the template name in the admin
         super(FlexiPage, self).save(*args, **kwargs)
+        if self.template_name == '':
+            raise AttributeError
         self.update_flexicontent()
     
     class Meta:

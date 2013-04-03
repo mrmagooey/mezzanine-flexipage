@@ -1,7 +1,7 @@
 {% extends "pages/page.html" %}
 {% load mezzanine_tags %}
 
-{% block main %}
+{% block main %}{{ block.super }}
 <div style="height:100px;">
   {% editable flexi_content_field1.content %}
    {{flexi_content_field1.content|richtext_filter|safe}}
@@ -17,7 +17,6 @@
    {{flexi_content_field3.content|richtext_filter|safe}}
   {% endeditable %}
 </div>
-{{ block.super }}
-{% editable_loader %}
+
 {% endblock %}
 

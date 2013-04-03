@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='mezzanine-flexipage',
-      version='0.1.1',
+      version='0.1.2',
       description='',
       url='http://github.com/mrmagooey/flexipage',
       author='Peter Davis',

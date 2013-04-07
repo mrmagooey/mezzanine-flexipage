@@ -14,14 +14,25 @@ from flexipage.utils import get_flexi_template, get_flexi_template_location,\
     get_template_variables, get_flexi_tags, get_flexi_forms, get_settings_forms,\
     get_flexi_form_tags
 
-from flexipage.models import FlexiPage
+import flexipage
+from flexipage.models import FlexiPage, FlexiContent
 
 from flexipage.tests.test_flexi_app import models
 from django.test import TestCase
-
 from django.template.base import TemplateDoesNotExist
+from django.conf import settings
+import os
 
-test_template_location = 'tests/test.html'
+# in case of emergency, break glass - makes interactive shell in execution
+# import readline # optional, will allow Up/Down/History in the console
+# import code
+# vars = globals().copy()
+# vars.update(locals())
+# shell = code.InteractiveConsole(vars)
+# shell.interact()
+
+test_template_location = 'flexipage/tests/test.html'
+flexipage_module_directory = flexipage.__path__[0]
 
 @override_settings(FLEXI_TEMPLATES=('test',test_template_location))
 class TestFlexiPage(TestCase):
@@ -34,6 +45,7 @@ class TestFlexiPage(TestCase):
         fp.title = 'some title here'
         fp.template_name = test_template_location
         fp.save()
+        
         
     def test_save_flexipage_raise_error_on_no_template_name(self):
         "Tests that a FlexiPage without a template raises an error"
@@ -49,6 +61,32 @@ class TestFlexiPage(TestCase):
         fp.template_name = test_template_location
         fp.save()
         self.assertEqual(['flexi_second_variable'], fp.check_for_flexicontent())
+        
+    def test_update_flexicontent(self):
+        "Test the update_flexicontent method"
+        # check that it will create new FlexiContent items from the template
+        fp = FlexiPage()
+        fp.title = 'some title here'
+        fp.template_name = test_template_location
+        fp.save()
+        flexicontents = FlexiContent.objects.all()
+        self.assertEqual(len(flexicontents), 1)
+        # add flexicontent to the template, check that this creates a new FlexiContent model
+        test_html_location = os.path.join(flexipage_module_directory,
+                                          'templates/flexipage/tests/test.html')
+        with open(test_html_location, 'r') as original_test_html_file:
+            original_html_string = original_test_html_file.read()
+        with open(test_html_location, 'a') as test_html_file:
+            test_html_file.write('\n {{ flexi_new_variable }} \n')
+        fp.save()
+        flexicontents = FlexiContent.objects.all()
+        self.assertEqual(len(flexicontents), 2)
+        # remove flexicontent item to return template to original format
+        with open(test_html_location, 'w') as test_html_file_out:
+            test_html_file_out.write(original_html_string)
+        # The quantity of FlexiContent models stays the same
+        self.assertEqual(len(flexicontents), 2)
+        # but the flexi_new_variable variable is no longer in template context
         
             
 class TestFlexiAdmin(TestCase):

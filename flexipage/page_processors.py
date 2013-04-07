@@ -31,7 +31,6 @@ def flexi_page_view(request, page):
     for fc in flexi_contents:
         context[fc.name] = fc
 
-
     forms_context = {}
     template_forms = get_flexi_forms(template_path)    
     for form_name, form_class in template_forms.iteritems():

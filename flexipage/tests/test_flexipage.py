@@ -21,6 +21,7 @@ from flexipage.tests.test_flexi_app import models
 from django.test import TestCase
 from django.template.base import TemplateDoesNotExist
 from django.conf import settings
+from flexipage.page_processors import get_flexi_variables_context, get_flexi_forms_context
 import os
 
 # in case of emergency, break glass - makes interactive shell in execution
@@ -69,8 +70,8 @@ class TestFlexiPage(TestCase):
         fp.title = 'some title here'
         fp.template_name = test_template_location
         fp.save()
-        flexicontents = FlexiContent.objects.all()
-        self.assertEqual(len(flexicontents), 1)
+        flexi_contents = FlexiContent.objects.all()
+        self.assertEqual(len(flexi_contents), 1)
         # add flexicontent to the template, check that this creates a new FlexiContent model
         test_html_location = os.path.join(flexipage_module_directory,
                                           'templates/flexipage/tests/test.html')
@@ -79,14 +80,44 @@ class TestFlexiPage(TestCase):
         with open(test_html_location, 'a') as test_html_file:
             test_html_file.write('\n {{ flexi_new_variable }} \n')
         fp.save()
-        flexicontents = FlexiContent.objects.all()
-        self.assertEqual(len(flexicontents), 2)
+        # Additional FlexiContent now fk'd to page model
+        flexi_contents = FlexiContent.objects.all()
+        self.assertEqual(len(flexi_contents), 2)
+        # remove flexicontent item to return template to original format
+        with open(test_html_location, 'w') as test_html_file_out:
+            test_html_file_out.write(original_html_string)
+
+    def test_flexipage_variables_context(self):
+        """
+        Tests that all flexicontent models fk'd to the page are 
+        included in the page context even if no longer present in the template
+        """
+        fp = FlexiPage()
+        fp.title = 'some title here'
+        fp.template_name = test_template_location
+        fp.save()
+        flexi_contents = FlexiContent.objects.all()
+        self.assertEqual(len(flexi_contents), 1)
+        # add flexicontent to the template, check that this creates a new FlexiContent model
+        test_html_location = os.path.join(flexipage_module_directory,
+                                          'templates/flexipage/tests/test.html')
+        with open(test_html_location, 'r') as original_test_html_file:
+            original_html_string = original_test_html_file.read()
+        with open(test_html_location, 'a') as test_html_file:
+            test_html_file.write('\n {{ flexi_new_variable }} \n')
+        fp.save()
+        # Additional FlexiContent now fk'd to page model
+        flexi_contents = FlexiContent.objects.all()
+        self.assertEqual(len(flexi_contents), 2)
         # remove flexicontent item to return template to original format
         with open(test_html_location, 'w') as test_html_file_out:
             test_html_file_out.write(original_html_string)
         # The quantity of FlexiContent models stays the same
-        self.assertEqual(len(flexicontents), 2)
-        # but the flexi_new_variable variable is no longer in template context
+        flexi_contents = FlexiContent.objects.all()
+        self.assertEqual(len(flexi_contents), 2)
+        # And the flexi_new_variable variable is still in the template context
+        self.assertIn('flexi_new_variable', get_flexi_variables_context(fp))
+        
         
             
 class TestFlexiAdmin(TestCase):
@@ -94,6 +125,7 @@ class TestFlexiAdmin(TestCase):
         pass
 
         
+@override_settings(FLEXI_TEMPLATES=('test',test_template_location))        
 class TestFlexiForms(TestCase):
     def test_modelforms_render(self):
         pass

@@ -24,7 +24,7 @@ class FlexiPage(Page):
         # For each flexi tag, check if a FlexiContent already exists with that name
         for ft in flexi_tags:
             try:
-                FlexiContent.objects.get(name=ft)
+                FlexiContent.objects.get(name=ft, page=self)
             except FlexiContent.DoesNotExist:
                 f = FlexiContent()
                 f.name = ft

@@ -34,7 +34,7 @@ Add the mezzanine-flexipage database tables.
 The option to create Flexi Pages will now be available in the admin site from the Pages page.
 
 ## Template Introspection
-
+### Rich Text Areas
 In order to change the number of content areas, add or remove variables starting with ``flexi_`` from the template itself. Mezzanine-flexipage will then introspect the template and create or remove Rich Text Areas from so that the variables on the page are supported by models created in the database.  The admin will then reflect these changes and whilst logged in with ``staff`` privileges the changes will update on the site proper by refreshing the page.
 
 For example, to add an additional field to the page:
@@ -48,6 +48,51 @@ For example, to add an additional field to the page:
     {% endeditable %}
 
 This can be repeated with an arbitrary number of variables (ensuring the prefix ``flexi_`` for each variable).
+### Forms
+Mezzanine-flexipage has support for Django's ``Form`` classes in a similar fashion as with the rich text areas, allowing forms to be added to the page via the inclusion of a ``flexiform`` prefixed variable. However, the system differs in that these forms need to be created prior to use and, similar to the templates, will need to be added (along with their containing application) to the sites settings.py:
+
+    INSTALLED_APPS = (
+        'django.contrib.admin',
+        ...
+        'flexipage', # Add the flexipage app
+        'feedback' # Our app with the form
+    )
+    
+    FLEXI_FORMS = (
+        'feedback.forms.FeedbackForm',
+    )
+
+... where `feedback.forms.FeedbackForm` looks like:
+
+    from django.models import Model
+    class Feedback(Model):
+        positive_feedback = models.TextField()
+
+    from flexipage.forms import FlexiForm
+    class FeedbackForm(FlexiModelForm):
+        class Meta:
+            model = Feedback
+            
+This form would then be available in any flexipage template as:
+
+    {{ flexiform_FeedbackForm }} # or
+    {{ flexiform_FeedbackForm.as_p }} # or
+    {{ flexiform_FeedbackForm.as_ul }} # etc
+
+If you want to call get the form into the context of the page, but don't want it to render, call the models `flexi_nothing` and then use the variable however it is needed:
+
+    {{ flexiform_Feedback.flexi_nothing }}
+    
+    {% crispy flexiform_Feedback %} # for example
+
+If you need the form to redirect the form after it is successfully POSTed, add a ``flexi_intermediate`` method to your ``FlexiForm``. To redirect to '/thanks/' after a successful POSTed form, add:
+
+    from django.shortcuts import redirect
+    Class FeedbackForm(FlexiForm):
+        def flexi_intermediate(self):
+            return redirect('/thanks/')
+
+Finally, if you want to include Django's simpler ``Form`` class, use ``FlexiForm`` and simply add a save() method to it(which does the form handling and saving to database). The behaviour will be otherwise identical to FlexiModelForm.
 
 ## Installation from scratch (new mezzanine app)
 

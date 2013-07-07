@@ -98,7 +98,17 @@ Add a title to the new page and select 'start' from the template name dropdown. 
 
 Refer to the section under Template Introspection for more information.
 
+ 
+## Tests
+In order to run tests, flexipage will need to be installed to a working mezzanine environment (the instructions above suffice).
+
+Once installed, from the installed mezzanine application: 
+
+   python manage.py test flexipage
+
+Will run a set of tests across the utilities and models of the flexipage application.
+
 ## Todo
 * Show all relevant FlexiContent elements in the admin without needing to save a FlexiPage model.
 * Include the ability to automatically scan the flexi\pages directory and pickup all templates in the directory, removing the need to put FLEXI\_TEMPLATES in settings
- 
+* Complete tests

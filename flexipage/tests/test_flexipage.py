@@ -5,7 +5,6 @@ when you run "manage.py test".
 Replace this with more appropriate tests for your application.
 """
 
-
 from django.test.utils import override_settings
 from django.template import Template
 from django.forms import ModelForm

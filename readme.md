@@ -1,5 +1,7 @@
 # mezzanine-flexipage
 
+Created by [Odd Socks Studios](http://oddsocksstudios.com.au).
+
 ## Overview
 Mezzanine-flexipage is an extension to the Mezzanine Content Management Platform designed to make it easy for template designers to add and remove content areas simply by adding or removing variables from a template.
 
@@ -157,3 +159,5 @@ Will run a set of tests across the utilities and models of the flexipage applica
 * Show all relevant FlexiContent elements in the admin without needing to save a FlexiPage model.
 * Include the ability to automatically scan the flexi\pages directory and pickup all templates in the directory, removing the need to put FLEXI\_TEMPLATES in settings
 * Complete tests
+
+

@@ -1,10 +1,15 @@
 import os
 
 from django.template.loader import get_template
-from django.template import VariableNode
 from django.template.loader_tags import ExtendsNode
 from django.conf import settings
 from django.template.base import TemplateDoesNotExist
+
+try:
+    from django.template.base import VariableNode
+except ImportError:
+    from django.template import VariableNode
+
 
 try:
     FLEXI_VARIABLE_PREFIX = settings.FLEXI_VARIABLE_PREFIX
@@ -45,11 +50,10 @@ def get_template_variables(nodes):
         if extend_node:
             parent_template_path = extend_node.parent_name.var
             try:
-                parent_template = get_template(parent_template_path)
+                parent_template = get_flexi_template(parent_template_path)
             except TemplateDoesNotExist:
                 print 'couldn\'t find template: %s' % parent_template_path
                 continue
-
             return variables + get_template_variables(parent_template.nodelist)
 
     return variables
@@ -67,6 +71,8 @@ def get_flexi_template(template_name):
         template = get_template(template_name)
     except TemplateDoesNotExist:
         template = get_template(os.path.join('flexipage', template_name))
+    if hasattr(template, 'template'): #workaround for Django 1.7+
+        template = template.template
     return template
 
 

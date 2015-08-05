@@ -29,8 +29,6 @@ Then tell mezzanine-flexipage what your flexi templates are (start.html comes wi
 
 Add the mezzanine-flexipage database tables.
 
-    python manage.py makemigrations flexipage
-
     python manage.py syncdb
 
 The option to create Flexi Pages will now be available in the admin site from the Pages page.

@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='mezzanine-flexipage',
-      version='0.2.0',
+      version='0.2.1',
       description='An extension to the Mezzanine Content Management Platform designed to make it easy for template designers to add and remove content areas simply by adding or removing variables from a template.',
       url='http://github.com/mrmagooey/flexipage',
       author='Peter Davis',

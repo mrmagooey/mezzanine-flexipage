@@ -1,7 +1,5 @@
 # mezzanine-flexipage
 
-Created and Used by [Odd Socks Studios](http://oddsocksstudios.com.au).
-
 ## Overview
 Mezzanine-flexipage is an extension to the Mezzanine Content Management Platform designed to make it easy for template designers to add and remove content areas simply by adding or removing variables from a template.
 
@@ -31,6 +29,8 @@ Then tell mezzanine-flexipage what your flexi templates are (start.html comes wi
 
 Add the mezzanine-flexipage database tables.
 
+    python manage.py makemigrations flexipage
+
     python manage.py syncdb
 
 The option to create Flexi Pages will now be available in the admin site from the Pages page.
@@ -50,7 +50,9 @@ For example, to add an additional field to the page:
     {% endeditable %}
 
 This can be repeated with an arbitrary number of variables (ensuring the prefix ``flexi_`` for each variable).
+
 ### Forms
+
 Mezzanine-flexipage has support for Django's ``Form`` classes in a similar fashion as with the rich text areas, allowing forms to be added to the page via the inclusion of a ``flexiform`` prefixed variable. However, the system differs in that these forms need to be created prior to use and, similar to the templates, will need to be added (along with their containing application) to the sites settings.py:
 
     INSTALLED_APPS = (
@@ -159,5 +161,3 @@ Will run a set of tests across the utilities and models of the flexipage applica
 * Show all relevant FlexiContent elements in the admin without needing to save a FlexiPage model.
 * Include the ability to automatically scan the flexi\pages directory and pickup all templates in the directory, removing the need to put FLEXI\_TEMPLATES in settings
 * Complete tests
-
-
